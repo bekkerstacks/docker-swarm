@@ -4,6 +4,16 @@ SWARM_ENABLED=true
 DOCKER_VERSION=18.06.3-ce-dind
 NUM_WORKERS=3
 
+# check if docker exists
+if [ $(which docker) ] 
+  then 
+    echo "docker installed"
+  else 
+    echo "install docker: https://docs.docker.com/install/"
+    exit 1
+fi
+
+# initialize swarm
 if [ ${SWARM_ENABLED} == "false" ]
   then
     docker swarm init
