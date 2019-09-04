@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SWARM_ENABLED=true
+SWARM_ENABLED=false
 DOCKER_VERSION=18.06.3-ce-dind
 NUM_WORKERS=3
 
@@ -11,6 +11,14 @@ if [ $(which docker) ]
   else 
     echo "install docker: https://docs.docker.com/install/"
     exit 1
+fi
+
+# detect if docker swarm is initialized
+if [ $(docker node ls > /dev/null 2>&1 ; echo $?) -eq "1" ]
+  then
+    export SWARM_ENABLED=false
+  else
+    export SWARM_ENABLED=true
 fi
 
 # initialize swarm
